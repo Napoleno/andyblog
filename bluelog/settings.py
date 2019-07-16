@@ -36,6 +36,8 @@ class BaseConfig(object):
     BLUELOG_MANAGE_POST_PER_PAGE = 10
     # 管理界面展示category时每页的数量
     BLUELOG_MANAGE_CATEGORY_PER_PAGE = 10
+    # 管理界面展示comment时每页的数量
+    BLUELOG_MANAGE_MANAGE_PER_PAGE = 10
 
     REMEMBER_COOKIE_DURATION = datetime.timedelta(days=1)
     # REMEMBER_COOKIE_DURATION = 10

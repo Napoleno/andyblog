@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
+from flask import current_app
 from flask_ckeditor import CKEditorField
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextField, HiddenField, SelectField
-from wtforms.validators import DataRequired, Length, Email, Optional, URL
+from wtforms.validators import DataRequired, Length, Email, Optional, URL, ValidationError
 
 from bluelog.models import Category
 
@@ -49,6 +50,16 @@ class PostForm(FlaskForm):
 
 
 class CategoryForm(FlaskForm):
-    name = StringField('名称', validators=[DataRequired(), Length(20)])
+    name = StringField('名称', validators=[DataRequired(), Length(2, 20)])
     submit = SubmitField()
 
+    def validate_name(self, field):
+        current_app.logger.debug('validate_name')
+        if Category.query.filter_by(name=field.data).first():
+            raise ValidationError('名称已经存在')
+
+
+class LinkForm(FlaskForm):
+    name = StringField('名称', validators=[DataRequired(), Length(1, 30)])
+    url = StringField('地址', validators=[DataRequired(), Length(1, 255)])
+    submit = SubmitField()
